@@ -14,7 +14,7 @@ class IndexRoute implements Route {
   private initializeRoutes() {
     this.router.get(
       `${this.path}/`,
-      this.indexController.register
+      this.indexController.index
     );
   }
 }
