@@ -5,7 +5,7 @@ import { CreateUserDto } from '../dtos/CreateUserDto';
 import UserController from '../controllers/users.controller';
 
 class UserRoute implements Route {
-  public path = 'user';
+  public path = '/user';
   public router = Router();
   public controller = new UserController();
 
