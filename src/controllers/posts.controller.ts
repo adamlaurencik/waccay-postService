@@ -4,7 +4,7 @@ import { CreatePostDto } from 'dtos/CreatePostDTO';
 import { isArray } from 'util';
 import PostService from '../services/PostService';
 import { DateTime } from 'luxon';
-import {isNormalInteger} from '../utils/util';
+import { isNormalInteger } from '../utils/util';
 
 class PostController {
   public index = async (
@@ -104,34 +104,31 @@ class PostController {
     }
   };
 
-
   public getMyFeed = async (
     req: EnhancedRequestObject,
     res: Response,
     next: NextFunction
   ) => {
     try {
-      if(req.params.cursorTimestamp){
-      if(isNormalInteger(req.params.cursorTimestamp)){
-      const cursorDateTIme = DateTime.fromMillis(Number(req.params.cursorTimestamp));
-      
-      await PostService.getMyFeed({
-        userId: req.tokenData.uid,
-        limit: 5,
-        cursorTimestamp: req.params.cursor ?
-      });
-      res.send(200);
-      }else{
-        res.send(400);
+      if (req.params.cursorTimestamp) {
+        if (isNormalInteger(req.params.cursorTimestamp)) {
+          const cursorDateTime = DateTime.fromMillis(
+            Number(req.params.cursorTimestamp)
+          );
+          await PostService.getMyFeed({
+            userId: req.tokenData.uid,
+            limit: 5,
+            cursorTimestamp: cursorDateTime
+          });
+          res.send(200);
+        } else {
+          res.send(400);
+        }
       }
-    }
     } catch (e) {
       next(e);
     }
   };
-
-
-  
 }
 
 export default PostController;

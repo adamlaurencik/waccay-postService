@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express';
 import { EnhancedRequestObject } from 'middlewares/_types';
-import { CreateUserDto } from 'dtos/CreateUserDto';
-import UserService from 'services/UserService';
+import { CreateUserDto } from '../dtos/CreateUserDto';
+import UserService from '../services/UserService';
 class UserController {
   public register = async (
     req: EnhancedRequestObject,

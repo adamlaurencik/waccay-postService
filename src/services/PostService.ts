@@ -29,7 +29,7 @@ function createPost({
         createdAt: FirebaseAdminService.firestore.FieldValue.serverTimestamp(),
         description: createPostDto.description,
         name: createPostDto.name,
-        userId: userId,
+        userId: userId
       });
     const imageCloudFile = FirebaseAdminService.storage()
       .bucket()
@@ -69,7 +69,7 @@ async function getPostsOfUserById({
 }: GetPostsOfUserByIdArgsType): Promise<PostType[]> {
   const snapshot = await FirebaseAdminService.firestore()
     .collection(POSTS_COLLECTION_KEY)
-    .where("userId", "==", userId)
+    .where('userId', '==', userId)
     .get();
 
   return parsePostResult(snapshot);
@@ -98,11 +98,11 @@ async function likePost({ postId, userId }: LikePostArgsType) {
     .collection(POSTS_COLLECTION_KEY)
     .doc(postId)
     .collection(LIKES_COLLECTION_KEY)
-    .doc(userId).create({
-      createdAt: FirebaseAdminService.firestore.FieldValue.serverTimestamp();
+    .doc(userId)
+    .create({
+      createdAt: FirebaseAdminService.firestore.FieldValue.serverTimestamp()
     });
 }
-
 
 async function unLikePost({ postId, userId }: LikePostArgsType) {
   await FirebaseAdminService.firestore()
@@ -110,37 +110,43 @@ async function unLikePost({ postId, userId }: LikePostArgsType) {
     .doc(postId)
     .collection(LIKES_COLLECTION_KEY)
     .doc(userId)
-    .delete()
+    .delete();
 }
-
 
 type GetMyFeedArgs = {
   userId: string;
   cursorTimestamp?: DateTime;
-  limit: number
-}
+  limit: number;
+};
 
-async function getMyFeed({ userId, cursorTimestamp = new DateTime(), limit }: GetMyFeedArgs) {
+async function getMyFeed({
+  userId,
+  cursorTimestamp = new DateTime(),
+  limit
+}: GetMyFeedArgs) {
   const userFolloweesSnapshot = await FirebaseAdminService.firestore()
     .collection(FOLLOWERS_COLLECTION_KEY)
-    .where("followee", "==", userId)
+    .where('followee', '==', userId)
     .get();
 
-  const userFollowees = userFolloweesSnapshot.docs.map(d=>d.data().followerId as string);
+  const userFollowees = userFolloweesSnapshot.docs.map(
+    (d) => d.data().followerId as string
+  );
 
   const snapshot = await FirebaseAdminService.firestore()
     .collectionGroup(POSTS_COLLECTION_KEY)
-    .where("userId", "in", userFollowees)
-    .where("createdAt", "<=", cursorTimestamp)
-    .orderBy("createdAt")
+    .where('userId', 'in', userFollowees)
+    .where('createdAt', '<=', cursorTimestamp)
+    .orderBy('createdAt')
     .limit(limit)
     .get();
-
 
   return parsePostResult(snapshot);
 }
 
-function parsePostResult(snapshot: firestore.QuerySnapshot<firestore.DocumentData>){
+function parsePostResult(
+  snapshot: firestore.QuerySnapshot<firestore.DocumentData>
+) {
   const result = snapshot.docs.map((d) => {
     const { createdAt, ...data } = d.data() as FirebasePostRawType;
     return {
