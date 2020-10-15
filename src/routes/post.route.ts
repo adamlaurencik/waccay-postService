@@ -26,9 +26,9 @@ class PostRoute implements Route {
 
     this.router.get(`${this.path}/:userName`, this.controller.getPostsOfUser);
 
-    this.router.get(`${this.path}/like/:postId`, this.controller.likePost);
+    this.router.put(`${this.path}/like/:postId`, this.controller.likePost);
 
-    this.router.get(`${this.path}/unlike/:postId`, this.controller.unLikePost);
+    this.router.delete(`${this.path}/like/:postId`, this.controller.unLikePost);
 
     this.router.get(`${this.path}/feed`, this.controller.getMyFeed);
   }

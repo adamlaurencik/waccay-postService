@@ -20,11 +20,11 @@ class UserRoute implements Route {
       this.controller.register
     );
     this.router.put(
-      `${this.path}/follow/:followerId/`,
+      `${this.path}/follow/:followerId`,
       this.controller.register
     );
     this.router.delete(
-      `${this.path}/follow/:followerId/`,
+      `${this.path}/follow/:followerId`,
       this.controller.register
     );
   }
