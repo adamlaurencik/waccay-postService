@@ -1,8 +1,9 @@
-import * as admin from "firebase-admin";
+import * as FirebaseAdminService from "firebase-admin";
 
-admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
+FirebaseAdminService.initializeApp({
+  credential: FirebaseAdminService.credential.applicationDefault(),
   databaseURL: "https://waccay.firebaseio.com",
+  storageBucket: "staging.waccay.appspot.com"
 });
 
-export default admin;
+export default FirebaseAdminService;
